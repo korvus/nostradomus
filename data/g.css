@@ -1,0 +1,11 @@
+ul,li{padding:0;margin:0;}
+li{
+ list-style-type:none;
+ width:100px;
+ display:block;
+ cursor:pointer;
+ margin-bottom:5px;
+ padding:3px;
+ color:#0f65da;
+}
+li:hover{background-color:#0f65da;color:#fff;}

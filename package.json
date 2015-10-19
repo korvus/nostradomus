@@ -1,0 +1,12 @@
+{
+  "title": "Nostradomus",
+  "name": "nostradomus",
+  "version": "0.0.1",
+  "description": "Simple addon displaying multiple info about DOM, in a way to improve old website easily.",
+  "main": "index.js",
+  "author": "Korvus",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "license": "MIT"
+}
