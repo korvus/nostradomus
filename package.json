@@ -2,11 +2,19 @@
   "title": "Nostradomus",
   "name": "nostradomus",
   "version": "0.0.1",
-  "description": "Simple addon displaying multiple info about DOM, in a way to improve old website easily.",
+  "description": "Simple addon displaying multiples infos about DOM, in a way to give some global visibility.",
   "main": "index.js",
-  "author": "Korvus",
+  "author": "Simon Ertel",
+  "translators": [ "Simon Ertel" ],
   "engines": {
     "firefox": ">=38.0a1"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "preferences": [{
+    "name": "numberDOMelements",
+    "title": "Count all node elements",
+    "description": "node number in the Document Object Model",
+    "type": "bool",
+    "value": true
+  }]
 }
