@@ -34,7 +34,10 @@ var EltsNotDisplayed = cm.Item({
 var countCSSrules = cm.Item({
   label: "Count CSS rules for CSS online and in each remote CSS files",
   data: "countcssrules",
-  contentScriptFile: self.data.url('functions/countCSSrules.js')
+  contentScriptFile: self.data.url('functions/countCSSrules.js'),
+  onMessage: function (feedBack){
+    console.log(feedBack);
+  }
 })
 
 cm.Menu({
@@ -44,6 +47,4 @@ cm.Menu({
   items: [countDomElements, listEmptyNodes, listSpacer, seeAllElts, EltsNotDisplayed, countCSSrules]
 });
 
-countCSSrules.on('getExternalCSSfile', function (status) {
-    console.log("yolo");
-});
+

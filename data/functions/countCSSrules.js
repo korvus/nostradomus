@@ -9,6 +9,9 @@ const {TextDecoder, TextEncoder, OS} = Cu.import("resource://gre/modules/osfile.
 function countSheet(sheet) {
     var count = 0;
 
+    //To use!!!
+    //self.postMessage("text");
+
     if (sheet.href != null && sheet.href.indexOf(location.origin) != 0) {
 
         console.log("CSS file couldn't be analyzed because it is not on the same domain: " + sheet.href);
@@ -46,8 +49,6 @@ function countSheet(sheet) {
 
 self.on("click", function (node, data) {
 
-    self.port.emit("getExternalCSSfile", "0");
-    /*
     var results = "";
     var log = "";
 
@@ -62,5 +63,5 @@ self.on("click", function (node, data) {
     console.log(log);
     console.log(results);
     alert(log + "\n" + results);
-    */
+
 });
