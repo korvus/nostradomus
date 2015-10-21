@@ -1,10 +1,10 @@
-/*
-const {Cu} = require("chrome");
+var sheet = (function() {
+    var style = document.createElement("style");
+    document.head.appendChild(style);
 
-// To read & write content to file
-const {TextDecoder, TextEncoder, OS} = Cu.import("resource://gre/modules/osfile.jsm", {});
+    return style.sheet;
+})();
 
-*/
 
 function countSheet(sheet) {
     var count = 0;
@@ -58,18 +58,31 @@ self.on("click", function (node, data) {
     }
 
     for (var i = 0; i < document.styleSheets.length; i++) {
-        console.log(document.styleSheets.length);
-        listUrlCSS.push(document.styleSheets[i].href);
         
-        /*if (sheet.href != null && sheet.href.indexOf(location.origin) != 0) {
-            
-        }*/
-        //countSheet(document.styleSheets[i]);
-    }
-    self.postMessage(listUrlCSS);
+        if (document.styleSheets[i].href != null && document.styleSheets[i].href.indexOf(location.origin) != 0) {
+            listUrlCSS.push([0,document.styleSheets[i].href]);
+/////////////////////////////////////
+/*
+            var r = new XMLHttpRequest();
+            r.open("GET", document.styleSheets[i].href, true);
+            r.onreadystatechange = function(){
+                if(r.readyState != 4 || r.status != 200) return;
+                var datCSS[i] = r.responseText;
 
-    console.log(log);
-    console.log(results);
-    alert(log + "\n" + results);
+            };
+            r.send();
+*/
+/////////////////////////////////////
+        }else{
+            listUrlCSS.push([1,document.styleSheets[i]]);
+        }
+        //countSheet(document.styleSheets[i]);
+
+    }
+    //self.postMessage(listUrlCSS);
+
+    //console.log(log);
+    //console.log(results);
+    //alert(log + "\n" + results);
 
 });
