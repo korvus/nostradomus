@@ -43,28 +43,14 @@ var countCSSrules = cm.Item({
   contentScriptFile: self.data.url('functions/countCSSrules.js'),
   onMessage: function (feedBack) {
 
-    var purText = "";
-    var onePiece = "";
+    var rawCSS = "";
 
     for(var i = 0; i < feedBack.length; i++) {
 
       /* If the feedback equal 0, then it mean it is an external stylesheet to get. */
       if (feedBack[i][0] == 0) {
-        /* Request some CSS unable to get on browser side with native js */
-        var datCSS = Request({
-          url: feedBack[i][1],
-          onComplete: function (response) {
-              // Correct : console.log(response.text);
-              return response.text;
-          }
-        });
-
-        onePiece = datCSS.get();
-          // incorrect : console.log(onePiece); 
-        purText = purText + onePiece;
-
+          getFile(feedBack[i][1], callBack, rawCSS);
       }
-
     }
 
     var vp = virtualPage.Page({
@@ -72,12 +58,28 @@ var countCSSrules = cm.Item({
         contentURL: self.data.url("ghostpage/empty.html")
     });
 
- 
-    vp.port.emit("getCSS", purText);
+    console.log(rawCSS);
 
+    vp.port.emit("getCSS", rawCSS);
 
   }
 })
+
+
+function callBack(result, rawCSS) {
+    rawCSS = rawCSS + result;
+};
+
+function getFile(url, callBack, rawCSS) {
+    /* Request some CSS unable to get on browser side with native js */
+    var datCSS = Request({
+        url: url,
+        onComplete: function (response) {
+            // Correct : console.log(response.text);
+            callBack(response.text, rawCSS);
+        }
+    }).get();
+}
 
 cm.Menu({
   image: self.data.url("icon-16.png"),
