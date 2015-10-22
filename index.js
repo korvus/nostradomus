@@ -1,5 +1,11 @@
 var self = require("sdk/self");
 var cm = require("sdk/context-menu");
+var Request = require("sdk/request").Request;
+var virtualPage = require("sdk/page-worker");
+
+
+//https://github.com/tabatkins/parse-css
+//var parserCSS = require("./data/functions/parse-css.js");
 
 var countDomElements = cm.Item({
   label: "Count all node elements",
@@ -35,8 +41,41 @@ var countCSSrules = cm.Item({
   label: "Count CSS rules for CSS online and in each remote CSS files",
   data: "countcssrules",
   contentScriptFile: self.data.url('functions/countCSSrules.js'),
-  onMessage: function (feedBack){
-    console.log(feedBack);
+  onMessage: function (feedBack) {
+
+    var purText = "";
+    var onePiece = "";
+
+    for(var i = 0; i < feedBack.length; i++) {
+
+      /* If the feedback equal 0, then it mean it is an external stylesheet to get. */
+      if (feedBack[i][0] == 0) {
+        /* Request some CSS unable to get on browser side with native js */
+        var datCSS = Request({
+          url: feedBack[i][1],
+          onComplete: function (response) {
+              // Correct : console.log(response.text);
+              return response.text;
+          }
+        });
+
+        onePiece = datCSS.get();
+          // incorrect : console.log(onePiece); 
+        purText = purText + onePiece;
+
+      }
+
+    }
+
+    var vp = virtualPage.Page({
+        contentScriptFile: self.data.url("ghostpage/generateExternalCss.js"),
+        contentURL: self.data.url("ghostpage/empty.html")
+    });
+
+ 
+    vp.port.emit("getCSS", purText);
+
+
   }
 })
 
@@ -46,5 +85,3 @@ cm.Menu({
   context: [cm.URLContext(/https?.*/)],
   items: [countDomElements, listEmptyNodes, listSpacer, seeAllElts, EltsNotDisplayed, countCSSrules]
 });
-
-
