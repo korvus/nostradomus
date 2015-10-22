@@ -19,7 +19,7 @@ function countSheet(sheet) {
         //return false;
     }
 
-    //console.log(sheet.cssRules);
+    console.log(sheet.cssRules);
     //console.log(sheet.cssRules);
     //if (sheet && sheet.cssRules){
         /*alert("ça se passe");
@@ -51,22 +51,14 @@ self.on("click", function (node, data) {
 
     var results = "";
     var log = "";
-    var listUrlCSS = [];
 
     if (!document.styleSheets) {
         return false;
     }
 
     for (var i = 0; i < document.styleSheets.length; i++) {
-        console.log(document.styleSheets.length);
-        listUrlCSS.push(document.styleSheets[i].href);
-        
-        /*if (sheet.href != null && sheet.href.indexOf(location.origin) != 0) {
-            
-        }*/
-        //countSheet(document.styleSheets[i]);
+        countSheet(document.styleSheets[i]);
     }
-    self.postMessage(listUrlCSS);
 
     console.log(log);
     console.log(results);
