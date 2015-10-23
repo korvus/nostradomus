@@ -43,43 +43,28 @@ var countCSSrules = cm.Item({
   contentScriptFile: self.data.url('functions/countCSSrules.js'),
   onMessage: function (feedBack) {
 
-    var rawCSS = "";
+    // If the feedback equal 0, then it mean it is an external stylesheet to get
+    var urls = feedBack.filter(msg => msg[0] === 0).map(msg => msg[1]);
 
-    for(var i = 0; i < feedBack.length; i++) {
-
-      /* If the feedback equal 0, then it mean it is an external stylesheet to get. */
-      if (feedBack[i][0] == 0) {
-          getFile(feedBack[i][1], callBack, rawCSS);
-      }
-    }
+    // If the feedback equal 1, then it mean it is an online stylesheet.
+    var CSSinline = feedBack.filter(msg => msg[0] === 1).map(obj => obj[1])
 
     var vp = virtualPage.Page({
         contentScriptFile: self.data.url("ghostpage/generateExternalCss.js"),
         contentURL: self.data.url("ghostpage/empty.html")
     });
 
-    console.log(rawCSS);
+    getFiles(urls, function (result) {
+        vp.port.emit("getCSS", result.join('\n'));
+    });
 
-    vp.port.emit("getCSS", rawCSS);
+    vp.port.on("receiveAnalyze", function (mssg) {
+        console.log(mssg);
+        console.log(CSSinline);
+    });
 
   }
 })
-
-
-function callBack(result, rawCSS) {
-    rawCSS = rawCSS + result;
-};
-
-function getFile(url, callBack, rawCSS) {
-    /* Request some CSS unable to get on browser side with native js */
-    var datCSS = Request({
-        url: url,
-        onComplete: function (response) {
-            // Correct : console.log(response.text);
-            callBack(response.text, rawCSS);
-        }
-    }).get();
-}
 
 cm.Menu({
   image: self.data.url("icon-16.png"),
@@ -87,3 +72,37 @@ cm.Menu({
   context: [cm.URLContext(/https?.*/)],
   items: [countDomElements, listEmptyNodes, listSpacer, seeAllElts, EltsNotDisplayed, countCSSrules]
 });
+
+
+//Bunch of functions linked to CSS count
+
+    //For the distant CSS
+function getFile(url, callBack) {
+    Request({
+        url: url,
+        onComplete: function (response) {
+            callBack(response.text);
+        }
+    }).get()
+}
+
+function getFiles(urls, callback) {
+    var files = [];
+    for (var i = 0; i < urls.length; i++) {
+        getFile(urls[i], function (result) {
+            files.push(result)
+            // Everything is here, we can call the callback
+            if (files.length === urls.length) {
+                callback(files);
+            }
+        });
+    }
+}
+
+
+/*
+
+var neoRay = [1,2,3,4].map(n => a(n));
+console.log(neoRay);
+
+*/

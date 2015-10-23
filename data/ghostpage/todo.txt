@@ -1,2 +1,0 @@
-https://developer.mozilla.org/en-US/Add-ons/SDK/High-Level_APIs/page-worker
-http://stackoverflow.com/questions/524696/how-to-create-a-style-tag-with-javascript

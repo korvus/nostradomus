@@ -1,90 +1,56 @@
-var sheet = (function() {
-    var style = document.createElement("style");
-    document.head.appendChild(style);
+function countCssIn(obj) {
+    let l = obj.cssRules.length;
+    let a, selector = 0;
+    let rule = "";
 
-    return style.sheet;
-})();
-
-
-function countSheet(sheet) {
-    var count = 0;
-
-    //To use!!!
-    //self.postMessage("text");
-
-    if (sheet.href != null && sheet.href.indexOf(location.origin) != 0) {
-
-        console.log("CSS file couldn't be analyzed because it is not on the same domain: " + sheet.href);
-
-        //return false;
+    for (a = 0; a < l; a++) {
+        rule = obj.cssRules[a];
+        if (rule instanceof CSSImportRule) {
+            countSheet(rule.styleSheet);
+        }
+        if (!rule.selectorText){
+            continue;
+        }
+        //console.log(rule.selectorText);
+        selector += rule.selectorText.split(',').length;
     }
-
-    console.log(sheet.cssRules);
-    //console.log(sheet.cssRules);
-    //if (sheet && sheet.cssRules){
-        /*alert("ça se passe");
-
-        for (var j = 0, l = sheet.cssRules.length; j < l; j++) {
-            var rule = sheet.cssRules[j];
-            if (rule instanceof CSSImportRule) {
-                countSheet(rule.styleSheet);
-            }
-            if (!rule.selectorText) {
-                continue;
-            }
-            count += rule.selectorText.split(',').length;
-        }
-
-        log += '\nFile: ' + (sheet.href ? sheet.href : 'inline <style> tag');
-        log += '\nRules: ' + sheet.cssRules.length;
-        log += '\nSelectors: ' + count;
-        log += '\n--------------------------';
-        if (count >= 4096) {
-            results += '\n********************************\nWARNING:\n There are ' + count + ' CSS rules in the stylesheet ' + sheet.href + ' - IE will ignore the last ' + (count - 4096) + ' rules!\n';
-        }
-        */
-    //}
-    
+    coords = [selector, l];
+    return coords;
 }
+
 
 self.on("click", function (node, data) {
 
-    var results = "";
-    var log = "";
-    var listUrlCSS = [];
+    let results = "";
+    let log = "";
+    let listUrlCSS = [];
 
     if (!document.styleSheets) {
         return false;
     }
 
-    for (var i = 0; i < document.styleSheets.length; i++) {
+    for(var i = 0; i < document.styleSheets.length; i++){
 
-        
-        if (document.styleSheets[i].href != null && document.styleSheets[i].href.indexOf(location.origin) != 0) {
-            listUrlCSS.push([0,document.styleSheets[i].href]);
-/////////////////////////////////////
-/*
-            var r = new XMLHttpRequest();
-            r.open("GET", document.styleSheets[i].href, true);
-            r.onreadystatechange = function(){
-                if(r.readyState != 4 || r.status != 200) return;
-                var datCSS[i] = r.responseText;
+        let dss = document.styleSheets[i];
 
-            };
-            r.send();
-*/
-/////////////////////////////////////
-        }else{
-            listUrlCSS.push([1,document.styleSheets[i]]);
+        //If link tag is linked to an external
+        if (dss.href != null && dss.href.indexOf(location.origin) != 0) {
+            listUrlCSS.push([0, dss.href]);
+
+        //If style tags online
+        } else if (!dss.href) {
+            let res = countCssIn(dss);
+            listUrlCSS.push([1, res]);
+
+        //If link tag
+        } else {
+            let res = countCssIn(dss);
+            listUrlCSS.push([2, res, dss.href]);
         }
-        //countSheet(document.styleSheets[i]);
 
     }
 
     self.postMessage(listUrlCSS);
 
-    //console.log(log);
-    //console.log(results);
-    //alert(log + "\n" + results);
 
 });
