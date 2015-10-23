@@ -1,9 +1,10 @@
-function getCSSasAnObject(){
+//Get the stylesheet matching the iteration loop.
+function getCSSasAnObject(cssID){
     let selectors = 0;
-    let firstSS = document.styleSheets[0];
-    var rules = firstSS.cssRules.length;
+    let SS = document.styleSheets[cssID];
+    var rules = SS.cssRules.length;
     for (var i = 0; i < rules; i++) {
-        var rule = firstSS.cssRules[i];
+        var rule = SS.cssRules[i];
         if (rule instanceof CSSImportRule) {
             console.log("there is an import rule");
         }
@@ -16,23 +17,26 @@ function getCSSasAnObject(){
     return results;
 }
 
-
-function append(css) {
-
+//Just create a styleSheet and get its value.
+function append(css,cssID) {
     style = document.createElement('style');
     style.type = 'text/css';
     style.appendChild(css);
     document.head.appendChild(style);
-    return getCSSasAnObject();
+    return getCSSasAnObject(cssID);
 }
 
 function init(rawCSS){
 
-    var nodeRawCss = document.createTextNode(rawCSS);
-    result = append(nodeRawCss);
-    self.port.emit('receiveAnalyze', [result[0],result[1]])
-
-    //console.log(result[0] +" + "+ result[1]);
+    let allExternalCss = [];
+    let j = 0;
+    for(j;j<rawCSS.length;j++){
+        let nodeRawCss = document.createTextNode(rawCSS[j]);
+        result = append(nodeRawCss,j);
+        let infos = [result[0],result[1]];
+        allExternalCss.push(infos);
+    }
+    self.port.emit('receiveAnalyze', allExternalCss);
 
 }
 
@@ -40,17 +44,3 @@ self.port.on('getCSS', function (rawCSS) {
     init(rawCSS);
 });
 
-
-
-/*
-
-    var r = new XMLHttpRequest();
-    r.open("GET", document.styleSheets[i].href, true);
-    r.onreadystatechange = function(){
-        if(r.readyState != 4 || r.status != 200) return;
-        var datCSS[i] = r.responseText;
-
-    };
-    r.send();
-
-*/

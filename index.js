@@ -49,18 +49,23 @@ var countCSSrules = cm.Item({
     // If the feedback equal 1, then it mean it is an online stylesheet.
     var CSSinline = feedBack.filter(msg => msg[0] === 1).map(obj => obj[1])
 
+    // If the feedback equal 1, then it mean it is an online stylesheet.
+    var CSSfile = feedBack.filter(msg => msg[0] === 2).map(obj => obj[1])
+
     var vp = virtualPage.Page({
         contentScriptFile: self.data.url("ghostpage/generateExternalCss.js"),
         contentURL: self.data.url("ghostpage/empty.html")
     });
 
+    console.log(urls);
     getFiles(urls, function (result) {
-        vp.port.emit("getCSS", result.join('\n'));
+        vp.port.emit("getCSS", result);
     });
 
     vp.port.on("receiveAnalyze", function (mssg) {
         console.log(mssg);
         console.log(CSSinline);
+        console.log(CSSfile);
     });
 
   }
@@ -90,7 +95,7 @@ function getFiles(urls, callback) {
     var files = [];
     for (var i = 0; i < urls.length; i++) {
         getFile(urls[i], function (result) {
-            files.push(result)
+            files.push(result);
             // Everything is here, we can call the callback
             if (files.length === urls.length) {
                 callback(files);
