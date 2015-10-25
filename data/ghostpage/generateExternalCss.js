@@ -31,9 +31,9 @@ function init(rawCSS){
     let allExternalCss = [];
     let j = 0;
     for(j;j<rawCSS.length;j++){
-        let nodeRawCss = document.createTextNode(rawCSS[j]);
+        let nodeRawCss = document.createTextNode(rawCSS[j][1]);
         result = append(nodeRawCss,j);
-        let infos = [result[0],result[1]];
+        let infos = [result[0],result[1],rawCSS[j][0]];
         allExternalCss.push(infos);
     }
     self.port.emit('receiveAnalyze', allExternalCss);

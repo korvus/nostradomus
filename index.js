@@ -1,11 +1,10 @@
 var self = require("sdk/self");
 var cm = require("sdk/context-menu");
-var Request = require("sdk/request").Request;
-var virtualPage = require("sdk/page-worker");
 
 
-//https://github.com/tabatkins/parse-css
-//var parserCSS = require("./data/functions/parse-css.js");
+//if need: https://github.com/tabatkins/parse-css
+//Local scripts
+var countCSS = require("./data/functions/countCSSdetails");
 
 var countDomElements = cm.Item({
   label: "Count all node elements",
@@ -41,33 +40,8 @@ var countCSSrules = cm.Item({
   label: "Count CSS rules for CSS online and in each remote CSS files",
   data: "countcssrules",
   contentScriptFile: self.data.url('functions/countCSSrules.js'),
-  onMessage: function (feedBack) {
-
-    // If the feedback equal 0, then it mean it is an external stylesheet to get
-    var urls = feedBack.filter(msg => msg[0] === 0).map(msg => msg[1]);
-
-    // If the feedback equal 1, then it mean it is an online stylesheet.
-    var CSSinline = feedBack.filter(msg => msg[0] === 1).map(obj => obj[1])
-
-    // If the feedback equal 1, then it mean it is an online stylesheet.
-    var CSSfile = feedBack.filter(msg => msg[0] === 2).map(obj => obj[1])
-
-    var vp = virtualPage.Page({
-        contentScriptFile: self.data.url("ghostpage/generateExternalCss.js"),
-        contentURL: self.data.url("ghostpage/empty.html")
-    });
-
-    console.log(urls);
-    getFiles(urls, function (result) {
-        vp.port.emit("getCSS", result);
-    });
-
-    vp.port.on("receiveAnalyze", function (mssg) {
-        console.log(mssg);
-        console.log(CSSinline);
-        console.log(CSSfile);
-    });
-
+  onMessage: function(feedBack){
+    countCSS.treatment(feedBack);
   }
 })
 
@@ -78,36 +52,3 @@ cm.Menu({
   items: [countDomElements, listEmptyNodes, listSpacer, seeAllElts, EltsNotDisplayed, countCSSrules]
 });
 
-
-//Bunch of functions linked to CSS count
-
-    //For the distant CSS
-function getFile(url, callBack) {
-    Request({
-        url: url,
-        onComplete: function (response) {
-            callBack(response.text);
-        }
-    }).get()
-}
-
-function getFiles(urls, callback) {
-    var files = [];
-    for (var i = 0; i < urls.length; i++) {
-        getFile(urls[i], function (result) {
-            files.push(result);
-            // Everything is here, we can call the callback
-            if (files.length === urls.length) {
-                callback(files);
-            }
-        });
-    }
-}
-
-
-/*
-
-var neoRay = [1,2,3,4].map(n => a(n));
-console.log(neoRay);
-
-*/
