@@ -1,10 +1,14 @@
 var self = require("sdk/self");
 var cm = require("sdk/context-menu");
-
+var opt = require('sdk/simple-prefs').prefs;
+var tabs = require('sdk/tabs');
+var {Hotkey} = require("sdk/hotkeys");
 
 //if need: https://github.com/tabatkins/parse-css
 //Local scripts
 var countCSS = require("./data/functions/countCSSdetails");
+
+var menuEntry = [];
 
 var countDomElements = cm.Item({
   label: "Count all node elements",
@@ -45,10 +49,26 @@ var countCSSrules = cm.Item({
   }
 })
 
+if(opt.numberDOMelements) menuEntry.push(countDomElements)
+if(opt.listEmpty) menuEntry.push(listEmptyNodes)
+if(opt.listSpacer) menuEntry.push(listSpacer)
+if(opt.sae) menuEntry.push(seeAllElts)
+if(opt.hiddenElts) menuEntry.push(EltsNotDisplayed)
+if(opt.CSSrules) menuEntry.push(countCSSrules)
+
 cm.Menu({
   image: self.data.url("icon-16.png"),
   label: "Nostradomus",
   context: [cm.URLContext(/https?.*/)],
-  items: [countDomElements, listEmptyNodes, listSpacer, seeAllElts, EltsNotDisplayed, countCSSrules]
+  items: menuEntry
 });
 
+var showHotKey = Hotkey({
+  combo: "alt-W",
+  onPress: function(){
+    var activeTab = tabs.activeTab.attach({
+      contentScriptFile: self.data.url('functions/count.js')
+    });
+    activeTab.port.emit("shortcut", "");
+  }
+})
