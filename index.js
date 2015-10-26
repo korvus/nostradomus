@@ -1,12 +1,11 @@
 var self = require("sdk/self");
 var cm = require("sdk/context-menu");
 var opt = require('sdk/simple-prefs').prefs;
-var tabs = require('sdk/tabs');
-var {Hotkey} = require("sdk/hotkeys");
 
 //if need: https://github.com/tabatkins/parse-css
 //Local scripts
 var countCSS = require("./data/functions/countCSSdetails");
+var shortKey = require("./data/functions/shortKey");
 
 var menuEntry = [];
 
@@ -63,12 +62,3 @@ cm.Menu({
   items: menuEntry
 });
 
-var showHotKey = Hotkey({
-  combo: "alt-W",
-  onPress: function(){
-    var activeTab = tabs.activeTab.attach({
-      contentScriptFile: self.data.url('functions/count.js')
-    });
-    activeTab.port.emit("shortcut", "");
-  }
-})

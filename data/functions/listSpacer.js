@@ -1,5 +1,4 @@
-
-self.on("click",function(node, data){
+function listSpacer() {
 
     var spacerClass = document.getElementsByClassName("spacer");
     var allPics = document.getElementsByTagName('img');
@@ -15,4 +14,15 @@ self.on("click",function(node, data){
     alert(spacerClass.length + " .spacer element in this page.\n and " + b + " pictures including 'spacer' in it name.");
     console.log(spacerClass.length + " .spacer element in this page.\n and " + b + " pictures including 'spacer' in it name.");
 
+}
+
+
+// Context menu
+self.on("click",function(){
+    listSpacer();
+});
+
+//From the shortcut
+self.port.on('shortcut', function () {
+    listSpacer();
 });

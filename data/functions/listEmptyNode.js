@@ -1,5 +1,6 @@
 
-self.on("click", function (node, data) {
+
+function listEmptyNode() {
 
     if (allMyElements) {
 
@@ -29,4 +30,14 @@ self.on("click", function (node, data) {
 
     }
 
+}
+
+//From the context-menu
+self.on("click", function () {
+    listEmptyNode();
+});
+
+//From the shortcut
+self.port.on('shortcut', function () {
+    listEmptyNode();
 });

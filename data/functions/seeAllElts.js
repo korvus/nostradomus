@@ -1,8 +1,7 @@
 
 var myElements = undefined;
 
-self.on("click",function(node, data){
-
+function seeAllElts() {
     if (myElements) {
 
         for (var i = 0; i < myElements.length; i++) {
@@ -10,7 +9,7 @@ self.on("click",function(node, data){
         }
 
 
-    }else{
+    } else {
 
         myElements = document.querySelectorAll("*");
 
@@ -33,5 +32,14 @@ self.on("click",function(node, data){
         }
 
     }
+}
 
+//By contextMenu
+self.on("click",function(){
+    seeAllElts();
+});
+
+//From the shortcut
+self.port.on('shortcut', function () {
+    seeAllElts();
 });
