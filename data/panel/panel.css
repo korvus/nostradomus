@@ -1,0 +1,21 @@
+body, html{
+  padding:0;
+  margin:0;
+  font-family: 'Roboto', sans-serif;
+}
+
+html{
+  height:100%;
+  border:5px solid #0f65da;
+  box-sizing: border-box;
+  padding:10px 20px;
+}
+
+h1{
+  font-weight:100;
+  border-bottom:1px solid #0f65da;
+  padding-left:0;
+  color: #0f65da;
+  margin:0;
+}
+

@@ -6,7 +6,7 @@ const objPanel = require("sdk/panel");
 exports.andDisplay = function (param) {
 
     var test = objPanel.Panel({
-        contentURL: self.data.url('panel/template.html'),
+        contentURL: self.data.url('panel/panel.html'),
         contentScriptFile: self.data.url('panel/script.js'),
         contentScriptOptions: { "toDisplay": param }
     });
