@@ -18,11 +18,7 @@ function listSpacer() {
 
 
 // Context menu
-self.on("click",function(){
-    listSpacer();
-});
+self.on("click", listSpacer);
 
 //From the shortcut
-self.port.on('shortcut', function () {
-    listSpacer();
-});
+self.port.on('shortcut', listSpacer);

@@ -1,3 +1,5 @@
+/* jshint moz: true */
+
 function countCssIn(obj) {
     let l = obj.cssRules.length;
     let a, selector = 0;
@@ -19,7 +21,7 @@ function countCssIn(obj) {
 }
 
 
-self.on("click", function (node, data) {
+function getRawCSS() {
 
     let results = "";
     let log = "";
@@ -37,12 +39,12 @@ self.on("click", function (node, data) {
         if (dss.href != null && dss.href.indexOf(location.origin) != 0) {
             listUrlCSS.push([0, dss.href]);
 
-        //If style tags online
+            //If style tags online
         } else if (!dss.href) {
             let res = countCssIn(dss);
             listUrlCSS.push([1, res]);
 
-        //If link tag
+            //If link tag
         } else {
             let res = countCssIn(dss);
             listUrlCSS.push([2, res, dss.href]);
@@ -51,6 +53,13 @@ self.on("click", function (node, data) {
     }
 
     self.postMessage(listUrlCSS);
+    self.port.emit("allCSSinfos", listUrlCSS);
+    //self.postMessage(listUrlCSS);
 
+}
 
-});
+//Access by context menu
+self.on("click", getRawCSS);
+
+//Access by keyboard shortcut
+self.port.on('shortcut', getRawCSS);

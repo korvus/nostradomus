@@ -1,4 +1,4 @@
-
+/* jshint moz: true */
 
 function listEmptyNode() {
 
@@ -33,11 +33,7 @@ function listEmptyNode() {
 }
 
 //From the context-menu
-self.on("click", function () {
-    listEmptyNode();
-});
+self.on("click", listEmptyNode);
 
 //From the shortcut
-self.port.on('shortcut', function () {
-    listEmptyNode();
-});
+self.port.on('shortcut', listEmptyNode);

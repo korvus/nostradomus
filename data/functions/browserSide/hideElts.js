@@ -1,4 +1,6 @@
-self.on("click",function(node, data){
+/* jshint moz: true */
+
+function hidElts() {
 
     var allDomElts = document.body.getElementsByTagName('*');
 
@@ -22,4 +24,10 @@ self.on("click",function(node, data){
     alert(b + " elements are with display:none;");
     console.log(b + " elements are with display:none;");
 
-});
+}
+
+//Trigger by context menu
+self.on("click", hidElts);
+
+//Trigger by shortcut
+self.port.on('shortcut', hidElts);

@@ -1,9 +1,11 @@
 /* jshint moz: true */
 
+//if need: https://github.com/tabatkins/parse-css
+
 /* Virtual page */
-var virtualPage = require("sdk/page-worker");
-var self = require("sdk/self");
-var Request = require("sdk/request").Request;
+const virtualPage = require("sdk/page-worker");
+const self = require("sdk/self");
+const Request = require("sdk/request").Request;
 
 //Bunch of functions linked to CSS count
 //For the distant CSS
