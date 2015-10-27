@@ -3,12 +3,8 @@
 const self = require("sdk/self");
 const cm = require("sdk/context-menu");
 
-//Local
-//Init all the shortcut keys.
-const shortKey = require("./data/functions/shortKey");
-
-//Init all sub-menu entry of the context-menu.
-const cnxtMenu = require("./data/functions/contextMenu");
+//Init all sub-menu entry of the context-menu and their shortcuts
+const cnxtMenu = require("./data/functions/init");
 
 
 //Init the main context menu.

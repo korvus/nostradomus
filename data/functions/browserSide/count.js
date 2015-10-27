@@ -4,6 +4,7 @@ function ct() {
     let allNodes = document.getElementsByTagName('*').length;
     console.log(allNodes);
     self.postMessage(allNodes);
+    self.port.emit("panelize", allNodes);
 }
 
 //From the context-menu

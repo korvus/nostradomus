@@ -6,7 +6,7 @@ function getCSSasAnObject(cssID){
     for (var i = 0; i < rules; i++) {
         var rule = SS.cssRules[i];
         if (rule instanceof CSSImportRule) {
-            console.log("there is an import rule");
+            //console.log("there is an import rule");
         }
         if (!rule.selectorText) {
             continue;

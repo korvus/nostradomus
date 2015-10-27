@@ -6,7 +6,8 @@ body, html{
 
 html{
   height:100%;
-  border:5px solid #0f65da;
+  box-shadow: 0 0 5px solid #000;
+  border:2px solid #0f65da;
   box-sizing: border-box;
   padding:10px 20px;
 }
