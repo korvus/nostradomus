@@ -1,6 +1,6 @@
 /* jshint moz: true */
 
-function listEmptyNode() {
+function listEmptyNode(consolog) {
 
     if (allMyElements) {
 
@@ -25,15 +25,20 @@ function listEmptyNode() {
             }
         }
 
-        alert(nbrElts + " empty elements.");
-        console.log(nbrElts + " empty elements.");
+        self.postMessage(nbrElts);
+        self.port.emit("panelize", nbrElts);
+        console.log(nbrElts + " " + consolog);
 
     }
 
 }
 
 //From the context-menu
-self.on("click", listEmptyNode);
+self.on("click", function (node, data) {
+    listEmptyNode(data);
+});
 
 //From the shortcut
-self.port.on('shortcut', listEmptyNode);
+self.port.on('shortcut', function () {
+    listEmptyNode(self.options.consolog);
+});

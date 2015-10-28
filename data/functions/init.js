@@ -24,7 +24,7 @@ let menuEntry = [];
 if (opt.numberDOMelements){
     var countDomElements = cm.Item({
         label: _("numberDOMelements_title"),
-        data: "countAll",
+        data: _("result_DomNumber"),
         contentScriptFile: self.data.url(pathsFiles[0]),
         onMessage: function (feedBack) {
             treatmentInfo.forNumberElts(feedBack);
@@ -34,7 +34,8 @@ if (opt.numberDOMelements){
         combo: "accel-alt-W",
         onPress: function(){
             let activeTab = tabs.activeTab.attach({
-                contentScriptFile: self.data.url(pathsFiles[0])
+                contentScriptFile: self.data.url(pathsFiles[0]),
+                contentScriptOptions: {"consolog" : _("result_DomNumber")}
             });
             activeTab.port.emit("shortcut", "");
             activeTab.port.on("panelize", function (feedBack) {
@@ -49,16 +50,23 @@ if (opt.numberDOMelements){
 if (opt.listEmpty){
     var listEmptyNodes = cm.Item({
         label: _("listEmpty_title"),
-        data: "listEmptyNode",
-        contentScriptFile: self.data.url(pathsFiles[1])
+        data: _("result_EmptyNumber"),
+        contentScriptFile: self.data.url(pathsFiles[1]),
+        onMessage: function (feedBack) {
+            treatmentInfo.forEmptyElts(feedBack);
+        }
     });
     Hotkey({
         combo: "accel-alt-X",
         onPress: function(){
             let activeTab = tabs.activeTab.attach({
-                contentScriptFile: self.data.url(pathsFiles[1])
+                contentScriptFile: self.data.url(pathsFiles[1]),
+                contentScriptOptions: {"consolog" : _("result_EmptyNumber")}
             });
             activeTab.port.emit("shortcut", "");
+            activeTab.port.on("panelize", function (feedBack) {
+                treatmentInfo.forEmptyElts(feedBack);
+            });
         }
     })
     menuEntry.push(listEmptyNodes);
@@ -68,16 +76,23 @@ if (opt.listEmpty){
 if (opt.listSpacer){
     var listSpacer = cm.Item({
         label: _("listSpacer_title"),
-        data: "listSpacer",
-        contentScriptFile: self.data.url(pathsFiles[2])
+        data: _("result_SpacerNumber"),
+        contentScriptFile: self.data.url(pathsFiles[2]),
+        onMessage: function (feedBack) {
+            treatmentInfo.forSpacerElts(feedBack);
+        }
     });
     Hotkey({
         combo: "accel-alt-C",
         onPress: function(){
             let activeTab = tabs.activeTab.attach({
                 contentScriptFile: self.data.url(pathsFiles[2]),
+                contentScriptOptions: {"consolog" : _("result_SpacerNumber")}
             });
             activeTab.port.emit("shortcut", "");
+            activeTab.port.on("panelize", function (feedBack) {
+                treatmentInfo.forSpacerElts(feedBack);
+            });
         }
     })
     menuEntry.push(listSpacer);
@@ -114,16 +129,23 @@ if (opt.sae){
 if (opt.hiddenElts){
     var EltsNotDisplayed = cm.Item({
         label: _("hiddenElts_title"),
-        data: "EltsNotDisplayed",
-        contentScriptFile: self.data.url(pathsFiles[4])
+        data: _("result_hideElts"),
+        contentScriptFile: self.data.url(pathsFiles[4]),
+        onMessage: function (feedBack) {
+            treatmentInfo.forHiddenElts(feedBack);
+        }
     })
     Hotkey({
         combo: "accel-alt-B",
         onPress: function(){
             let activeTab = tabs.activeTab.attach({
-                contentScriptFile: self.data.url(pathsFiles[4])
+                contentScriptFile: self.data.url(pathsFiles[4]),
+                contentScriptOptions: {"consolog" : _("result_hideElts")}
             });
             activeTab.port.emit("shortcut", "");
+            activeTab.port.on("panelize", function (feedBack) {
+                treatmentInfo.forHiddenElts(feedBack);
+            });
         }
     })
     menuEntry.push(EltsNotDisplayed);

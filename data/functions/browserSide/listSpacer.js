@@ -1,4 +1,4 @@
-function listSpacer() {
+function listSpacer(consolog) {
 
     var spacerClass = document.getElementsByClassName("spacer");
     var allPics = document.getElementsByTagName('img');
@@ -10,15 +10,22 @@ function listSpacer() {
             b++;
         }
     }
+    
+    const nbrSpacer = [b, spacerClass.length];
 
-    alert(spacerClass.length + " .spacer element in this page.\n and " + b + " pictures including 'spacer' in it name.");
-    console.log(spacerClass.length + " .spacer element in this page.\n and " + b + " pictures including 'spacer' in it name.");
+    self.postMessage(nbrSpacer);
+    self.port.emit("panelize", nbrSpacer);
+    console.log(spacerClass.length+b + " " + consolog);
 
 }
 
 
 // Context menu
-self.on("click", listSpacer);
+self.on("click", function (node, data) {
+    listSpacer(data);
+});
 
 //From the shortcut
-self.port.on('shortcut', listSpacer);
+self.port.on('shortcut', function () {
+    listSpacer(self.options.consolog);
+});

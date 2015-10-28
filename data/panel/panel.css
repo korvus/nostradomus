@@ -6,10 +6,14 @@ body, html{
 
 html{
   height:100%;
-  box-shadow: 0 0 5px solid #000;
-  border:2px solid #0f65da;
-  box-sizing: border-box;
-  padding:10px 20px;
+  box-shadow: 0 0 100px solid #0f65da;
+}
+
+body{
+    border:2px solid #0f65da;
+    box-sizing: border-box;
+    height: 100%;
+    padding:10px 20px;
 }
 
 h1{
@@ -49,6 +53,9 @@ a{
 
 .size-min{font-size:12px;}
 .size-plus{font-size:16px;}
+.size-big{font-size: 40px;}
+.size-veryBig{font-size: 45px;}
+
 
 a.bt{
   background-color:#0f65da;
@@ -65,4 +72,10 @@ a.bt{
 a.bt:hover{
   background:#115AA8;
   transition: all 1s ease;
+}
+
+hr{
+    clear: both;
+    border: none;
+    border-top: 1px solid #aaa;
 }
