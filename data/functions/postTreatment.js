@@ -19,7 +19,7 @@ exports.forNumberElts = function(feedBack){
             [feedBack.toString()],
             [feedBack.toString()]
         ], [
-            ["p"],
+            ["span"],
             [""],
             [""],
             [""],

@@ -20,3 +20,49 @@ h1{
   margin:0;
 }
 
+#content{
+  padding: 10px 0;
+  font-size: 14px;
+}
+
+output{
+  display: inline;
+  font-size: 45px;
+  font-weight: 900;
+  color: #666;
+  padding:0 10px;
+}
+
+aside{
+  display:block;
+  font-size:11px;
+  color:#bbb;
+}
+
+p{
+  margin: 10px 0;
+}
+
+a{
+  color:#0f65da;
+}
+
+.size-min{font-size:12px;}
+.size-plus{font-size:16px;}
+
+a.bt{
+  background-color:#0f65da;
+  color:#fff;
+  padding:5px 10px;
+  display:block;
+  text-align:center;
+  clear:both;
+  margin:10px 0;
+  border-radius:5px;
+  text-decoration:none;
+}
+
+a.bt:hover{
+  background:#115AA8;
+  transition: all 1s ease;
+}
