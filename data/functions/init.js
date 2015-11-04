@@ -1,3 +1,5 @@
+/* jshint moz: true */
+
 const self = require("sdk/self");
 const cm = require("sdk/context-menu");
 const opt = require('sdk/simple-prefs').prefs;
@@ -159,6 +161,7 @@ if (opt.CSSrules){
         contentScriptFile: self.data.url(pathsFiles[5]),
         onMessage: function(feedBack){
             countCSS.treatment(feedBack);
+            //Management of panel is inside the file countCSSdetails.js
         }
     })
     Hotkey({
@@ -170,6 +173,7 @@ if (opt.CSSrules){
 
             activeTab.port.on("allCSSinfos", function (feedBack) {
                 countCSS.treatment(feedBack);
+                //Management of panel is inside the file countCSSdetails.js
             });
 
             activeTab.port.emit("shortcut", "");

@@ -1,25 +1,34 @@
 //Array of Content
 const ac = self.options.toDisplay;
-const acl = ac.length;
 const wrap = document.getElementById("content");
 
-
-function deployDom() {
-    var domn = [];
-    for (var n = 0; n < acl; n++) {
-        domn[n] = document.createElement(ac[n][0]);
-        if (ac[n][1]) domn[n].setAttribute("id", ac[n][1]);
-        if (ac[n][2]) domn[n].setAttribute("class", ac[n][2]);
-        if (ac[n][3]) domn[n].setAttribute("title", ac[n][3]);
-        if (ac[n][4]) {
-            let sTxt = document.createTextNode(ac[n][4]);
-            domn[n].appendChild(sTxt);
+//ade : Array Dom Elements
+function deployDom(ade, container) {
+    let adel = ade.length;
+    let domn = [];
+    for (var n = 0; n < adel; n++) {
+        domn[n] = document.createElement(ade[n][0]);
+        //If there is some attributes to set.
+        if (ade[n][1]) {
+            Object.getOwnPropertyNames(ade[n][1]).forEach(function (val, idx, array) {
+                domn[n].setAttribute(val, ade[n][1][val]);
+            });
         }
-        wrap.appendChild(domn[n]);
+
+        if (ade[n][2]) {
+            //If it is an array, it mean it's an another included domNode
+            if (ade[n][2] instanceof Array) {
+                deployDom(ade[n][2], domn[n]);
+            }else{
+                let sTxt = document.createTextNode(ade[n][2]);
+                domn[n].appendChild(sTxt);
+            }
+        }
+        container.appendChild(domn[n]);
     }
 }
 
-deployDom();
+deployDom(ac, wrap);
 
 
 
