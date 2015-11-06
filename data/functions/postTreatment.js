@@ -90,6 +90,7 @@ exports.countCSS = function (feedBack) {
     */
 
     /* > https://jsfiddle.net/cuzdv1ts/7/ */
+    /* https://helloanselm.com/2014/add-simple-charts-to-your-page/ > https://jsfiddle.net/cuzdv1ts/19/ */
 
     const structure = [
           ["output", {}, feedBack.toString()],
