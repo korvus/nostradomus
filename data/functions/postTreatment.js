@@ -1,4 +1,5 @@
 const getPanel = require("./getPanel");
+const pie = require("./pie");
 const _ = require("sdk/l10n").get;
 
 exports.forNumberElts = function(feedBack){
@@ -72,35 +73,155 @@ exports.forHiddenElts = function (feedBack) {
 
 }
 
+function cookPie(dataPie, widthSVG, heightSVG, cx, cy, rayon, color){
+
+        var SVGcomponents = [];
+
+        var paths = pie.cification(dataPie, widthSVG, heightSVG, cx, cy, rayon, color);
+
+        SVGcomponents.push(["circle", { "cx": cx, "cy": cy, "r": rayon, "fill": "#0f65da"}]);
+
+        paths.map(function(p){
+           SVGcomponents.push(["path", { "id": "a1", "d": p[0], "stroke": "black", "fill": p[1]}]);
+        })
+
+        var SVG = ["svg", {"class": "fleft", "width": "150px", "height": "150px", "viewBox": "0 0 "+widthSVG+" "+heightSVG},
+          SVGcomponents
+        ];
+
+        return SVG;
+
+}
 
 exports.countCSS = function (feedBack) {
 
-    /*
-    <svg width="12cm" height="5.25cm" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    /* Work example > https://jsfiddle.net/cuzdv1ts/22 */
+    let CSSremote = feedBack[1][0];
+    let CSSinline = feedBack[1][1];
+    let CSSlocal = feedBack[1][2];
 
-<circle cx="300" cy="200" r="150" fill="red" stroke="black" stroke-width="1" />
-
-<path id= "a1" d="M300,200 v-150 a150,150 0 0,0 -150,150 z" fill="yellow" stroke="black" stroke-width="1" transform="rotate(180 300 200)"/>
-<path id= "a2" d="M300,200 v-150 a150,150 0 0,0 -150,150 z" fill="blue" stroke="black" stroke-width="1" transform="rotate(220 300 200)"/>
-<path id= "a3" d="M300,200 v-150 a150,150 0 0,0 -150,150 z" fill="green" stroke="black" stroke-width="1" transform="rotate(237 300 200)"/>
-<path id= "a4" d="M300,200 v-150 a150,150 0 0,0 -150,150 z" fill="maroon" stroke="black" stroke-width="1" transform="rotate(320 300 200)"/>
-<path id= "a5" d="M300,200 v-150 a150,150 0 0,0 -150,150 z" fill="red" transform="rotate(400 300 200)"/>
-
-    </svg>
+    /* example of data:
+    Array [[178,173,"http://www.foiredautomne.fr/extension/comexposiumdesign/design/comexposium/stylesheets/ScreenInner.css"],[15,15,"http://postitwar.me/r/css/home.css"]]
+    Array [[3,2],[1,1]]
+    Array [[80,66,"http://annuaireblogbd.com/ressources/css/atelier.css"],[187,154,"http://annuaireblogbd.com/ressources/css/calendar.css"]]
     */
 
-    /* > https://jsfiddle.net/cuzdv1ts/7/ */
-    /* https://helloanselm.com/2014/add-simple-charts-to-your-page/ > https://jsfiddle.net/cuzdv1ts/19/ */
+    var colorSet = ["#0f65da","#04DBE7","#1C04E7"];
+    var dataPie = [];
+    var color = [];
+    var iter = 0;
+    var SVG;
 
-    const structure = [
-          ["output", {}, feedBack.toString()],
-          ["svg", { "width": "100px", "height": "100px", "viewBox": "0 0 300 300"},
-              [
-                  ["circle", { "cx": "150", "cy": "150", "r": "140", "fill": "#0f65da" }],
-                  ["path", { "id": "a1", "d": "M160,160 v-150 a140,140 0 0,0 -150,150 z", "fill": "#5f65ff", "stroke": "black" }]
-              ]
-          ]
-    ];
+    if((CSSremote.length + CSSinline.length + CSSlocal.length) < 2){
+        toDisplay = ["aside",{},"aside"];
+    }else{
+
+        var widthSVG = 300;
+        var heightSVG = 300;
+        var cx = 150;
+        var cy = 150;
+        var rayon = 150;
+        var styleByType = [];
+        var styleByBlock = [];
+        var labels = ["External file","Style Inline", "Same domain name"];
+
+        feedBack[1].map(function(differentsKindofCSS){
+            
+            differentsKindofCSS.map(
+                function(CSSanalysis){
+                    dataPie.push(CSSanalysis[1]);
+                    color.push(colorSet[iter]);
+                    styleByBlock.push(["li",{},[
+                        ["a",{"href":"http://simonertel.net"},"simonertel.net"],
+                        ["span",{},"150 rules"],
+                        ["span",{},"152 selectors"]
+                    ]]);
+                }
+            );
+
+            styleByType.push(["li",{"class":"size-min"},[
+                    ["h2",{},[
+                        ["span",{},labels[iter]],
+                        ["span",{}," "+feedBack[2][iter]+" rules / "+feedBack[3][iter]+" selectors"]
+                    ]],
+                    ["ul",{},styleByBlock]
+                ]]);
+
+            iter++;
+        });
+/*
+    <ul >
+        <li>
+            <h2>
+                <span>External file</span>
+                <span>1240 rules / 1256 selectors</span>
+            </h2>
+            <ul>
+                <li>
+                    <a href="http://external.css">http://external.css</a>
+                    <span>150 rules /</span>
+                    <span class="grey"> 152 selectors</span>
+                </li>
+                <li>
+                    <a href="http://external.css">http://external.css</a>
+                    <span>150 rules /</span>
+                    <span class="grey">152 selectors</span>
+                </li>
+            </ul>
+
+        </li>
+        <li>
+            <h2>
+                <span>CSS inline</span>
+                <span>1240 rules / 1256 selectors</span>
+            </h2>
+        </li>
+        <li>
+            <h2>
+                <span>Same domain file</span>
+                <span>1240 rules / 1256 selectors</span>
+            </h2>
+        </li>
+    </ul>
+*/
+        SVG = cookPie( dataPie, widthSVG, heightSVG, cx, cy, rayon, color);
+        toDisplay = [
+            ["div", {"id":"graphicHead"},[
+                SVG,
+                ["ul",{"class":"fleft"},[
+                    ["li",{},[
+                        ["span",{"class":"output"},feedBack[0][0]],
+                        ["span",{"class":"size-min"},"rules for"],
+                        ["span",{"class":"size-big"},feedBack[0][1]],
+                        ["span",{"class":"size-min"},"selectors"],
+                        ["hr"]
+                    ]],
+                    ["li",{},[
+                        ["span",{"class":"size-min"},"It make a ratio of"],
+                        ["span",{"class":"size-plus"},feedBack[0][2]],
+                        ["span",{"class":"size-min"},"selector(s) for 1 rule"]
+                    ]]
+                ]]
+
+            ]],
+            ["ul",{"class":"clear","id":"array"},
+                styleByType
+            ]
+        ]
+
+
+    }
+
+    let sumRulesExternalCSS = feedBack[2][0];
+    let sumRulesCSSinline = feedBack[2][1];
+    let sumRulesInternalCSS = feedBack[2][2];
+
+    //console.log(CSSremote);
+
+    //console.log(toDisplay);
+
+    const structure = toDisplay;
+
 
     getPanel.andDisplay(structure);
 

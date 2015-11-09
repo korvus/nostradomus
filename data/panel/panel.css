@@ -4,17 +4,23 @@ body, html{
   font-family: 'Roboto', sans-serif;
 }
 
+ul{margin:0;padding:0;list-style:none;}
+
 html{
   height:100%;
-  box-shadow: 0 0 100px solid #0f65da;
 }
 
-body{
-    border:2px solid #0f65da;
-    box-sizing: border-box;
-    height: 100%;
-    padding:10px 20px;
+body{height:100%;}
+
+#wrap{
+  height: 100%;
+  box-sizing: border-box;
+  height: 100%;
+  padding:10px 20px;
+  height: 100%;
+  border:2px solid #0f65da;
 }
+
 
 h1{
   font-weight:100;
@@ -24,11 +30,36 @@ h1{
   margin:0;
 }
 
+.grey{color:#aaa;}
+
+ul h2{font-size:12px;font-weight:normal;margin:0;}
+
 #content{
   padding: 10px 0;
   font-size: 14px;
 }
 
+#graphicHead{display:table;margin:0 auto 20px;}
+
+#array{
+  border-top:1px solid #aaa;
+}
+
+#array li{
+  color:#666;
+  border-top: 1px solid #aaa;
+  margin:0;
+}
+
+#array li:first-child{
+  border-top: none;
+}
+
+#array ul{
+  margin:0 0 10px 50px;
+}
+
+span.output,
 output{
   display: inline;
   font-size: 45px;
@@ -36,6 +67,11 @@ output{
   color: #666;
   padding:0 10px;
 }
+
+span.output{padding:0;}
+ul.output{display:table-cell;margin:0 10px 0 0;padding:0;}
+ul.output li{list-style:none;color: #666;margin: 0;padding: 0;vertical-align:middle;}
+ul.output hr{margin:0;}
 
 aside{
   display:block;
@@ -53,9 +89,19 @@ a{
 
 .size-min{font-size:12px;}
 .size-plus{font-size:16px;}
-.size-big{font-size: 40px;}
-.size-veryBig{font-size: 45px;}
+.size-big{font-size: 30px;}
+.size-veryBig{font-size: 40px;}
+.size-huge{font-size: 45px;}
 
+.fleft{
+  float: left;
+}
+
+svg{margin-right:10px;}
+
+.block{
+  display:block;
+}
 
 a.bt{
   background-color:#0f65da;
@@ -72,6 +118,10 @@ a.bt{
 a.bt:hover{
   background:#115AA8;
   transition: all 1s ease;
+}
+
+.clear{
+  clear:both;
 }
 
 hr{

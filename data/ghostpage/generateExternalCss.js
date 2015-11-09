@@ -37,7 +37,6 @@ function init(rawCSS){
         allExternalCss.push(infos);
     }
     self.port.emit('receiveAnalyze', allExternalCss);
-
 }
 
 self.port.on('getCSS', function (rawCSS) {

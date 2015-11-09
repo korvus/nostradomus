@@ -42,12 +42,7 @@ function deployDom(ade, container) {
 
 deployDom(ac, wrap);
 
+//For debug
+//console.log(document.documentElement.outerHTML);
 
-
-
-
-//title = document.createElement('h1');
-//txt = document.createTextNode();
-//nodeWithTxt = title.appendChild(txt);
-//document.getElementById("content").appendChild(nodeWithTxt);
 
