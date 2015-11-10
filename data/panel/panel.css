@@ -10,20 +10,28 @@ html{
   height:100%;
 }
 
-body{height:100%;}
+body{
+  height:100%;
+}
 
 #wrap{
   height: 100%;
+  display:flex;
+  flex-direction: column;
+  flex:1;
+  overflow-x:auto;
+  overflow-y:none;
+  border:2px solid #0f65da;
   box-sizing: border-box;
-  height: 100%;
   padding:10px 20px;
   height: 100%;
-  border:2px solid #0f65da;
 }
 
 
 h1{
   font-weight:100;
+  clear:both;
+  display:block;
   border-bottom:1px solid #0f65da;
   padding-left:0;
   color: #0f65da;
