@@ -9,6 +9,7 @@ const {Hotkey} = require("sdk/hotkeys");
 
 //Local
 const countCSS = require("./countCSSdetails");
+const getW3C = require("./w3cAPI");
 const treatmentInfo = require("./postTreatment");
 
 const pathsFiles = [
@@ -18,6 +19,7 @@ const pathsFiles = [
     , 'functions/browserSide/seeAllElts.js'
     , 'functions/browserSide/hideElts.js'
     , 'functions/browserSide/countCSSrules.js'
+    , 'functions/browserSide/w3cValidator.js'
 ];
 
 let menuEntry = [];
@@ -180,6 +182,32 @@ if (opt.CSSrules){
         }
     })
     menuEntry.push(countCSSrules);
+}
+
+
+/* w3c Validator */
+if (opt.hiddenElts){
+    var EltsNotDisplayed = cm.Item({
+        label: _("w3cValidator_title"),
+        data: _("w3cValidation"),
+        contentScriptFile: self.data.url(pathsFiles[6]),
+        onMessage: function (feedBack) {
+            getW3C.andTreat(feedBack);
+        }
+    })
+    Hotkey({
+        combo: "accel-alt-F",
+        onPress: function(){
+            let activeTab = tabs.activeTab.attach({
+                contentScriptFile: self.data.url(pathsFiles[6])
+            });
+            activeTab.port.emit("shortcut", "");
+            activeTab.port.on("panelize", function (feedBack) {
+                getW3C.andTreat(feedBack);
+            });
+        }
+    })
+    menuEntry.push(EltsNotDisplayed);
 }
 
 exports.menuEntry = menuEntry;

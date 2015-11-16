@@ -73,24 +73,29 @@ exports.forHiddenElts = function (feedBack) {
 
 }
 
+exports.forValidate = function (feedBack) {
+
+    const structure = [
+        ["span", { "title": feedBack.toString() }, feedBack.toString()]
+    ];
+
+    getPanel.andDisplay(structure);
+
+}
+
+
 function cookPie(dataPie, widthSVG, heightSVG, cx, cy, rayon, color){
 
-        var SVGcomponents = [];
-
-        var paths = pie.cification(dataPie, widthSVG, heightSVG, cx, cy, rayon, color);
-
-        SVGcomponents.push(["circle", { "cx": cx, "cy": cy, "r": rayon, "fill": "#0f65da"}]);
-
-        paths.map(function(p){
-           SVGcomponents.push(["path", { "id": "a1", "d": p[0], "stroke": "black", "fill": p[1]}]);
-        })
-
-        var SVG = ["svg", {"class": "fleft", "width": "150px", "height": "150px", "viewBox": "0 0 "+widthSVG+" "+heightSVG},
-          SVGcomponents
-        ];
-
-        return SVG;
-
+    var SVGcomponents = [];
+    var paths = pie.cification(dataPie, widthSVG, heightSVG, cx, cy, rayon, color);
+    SVGcomponents.push(["circle", { "cx": cx, "cy": cy, "r": rayon, "fill": "#0f65da"}]);
+    paths.map(function(p){
+        SVGcomponents.push(["path", { "id": "a1", "d": p[0], "stroke": "black", "fill": p[1]}]);
+    })
+    var SVG = ["svg", {"class": "fleft", "width": "150px", "height": "150px", "viewBox": "0 0 "+widthSVG+" "+heightSVG},
+        SVGcomponents
+    ];
+    return SVG;
 }
 
 exports.countCSS = function (feedBack) {
@@ -100,11 +105,12 @@ exports.countCSS = function (feedBack) {
     let CSSinline = feedBack[1][1];
     let CSSlocal = feedBack[1][2];
 
-    /* example of data:
-    Selectors / rules / url
-    Array [[178,173,"http://www.foiredautomne.fr/extension/comexposiumdesign/design/comexposium/stylesheets/ScreenInner.css"],[15,15,"http://postitwar.me/r/css/home.css"]]
+    /*  
+    this three arrays give
+    this paterns data:[ Selectors / rules / url ]
+    Array [[178,173,"http://external.url.com/one.css"],[15,15,"http://external.url.com/two.css"]]
     Array [[3,2],[1,1]]
-    Array [[80,66,"http://annuaireblogbd.com/ressources/css/atelier.css"],[187,154,"http://annuaireblogbd.com/ressources/css/calendar.css"]]
+    Array [[80,66,"http://same.url.com/one.css"],[187,154,"http://same.url.com/two.css"]]
     */
 
     var colorSet = ["#0f65da","#04DBE7","#1C04E7"];
@@ -154,39 +160,7 @@ exports.countCSS = function (feedBack) {
 
             iter++;
         });
-/*
-        <li>
-            <h2>
-                <span>External file</span>
-                <span>1240 rules / 1256 selectors</span>
-            </h2>
-            <ul>
-                <li>
-                    <a href="http://external.css">http://external.css</a>
-                    <span>150 rules /</span>
-                    <span class="grey"> 152 selectors</span>
-                </li>
-                <li>
-                    <a href="http://external.css">http://external.css</a>
-                    <span>150 rules /</span>
-                    <span class="grey">152 selectors</span>
-                </li>
-            </ul>
 
-        </li>
-        <li>
-            <h2>
-                <span>CSS inline</span>
-                <span>1240 rules / 1256 selectors</span>
-            </h2>
-        </li>
-        <li>
-            <h2>
-                <span>Same domain file</span>
-                <span>1240 rules / 1256 selectors</span>
-            </h2>
-        </li>
-*/
         SVG = cookPie( dataPie, widthSVG, heightSVG, cx, cy, rayon, color);
         toDisplay = [
             ["div", {"id":"graphicHead"},[
@@ -212,19 +186,13 @@ exports.countCSS = function (feedBack) {
             ]
         ]
 
-
     }
 
     let sumRulesExternalCSS = feedBack[2][0];
     let sumRulesCSSinline = feedBack[2][1];
     let sumRulesInternalCSS = feedBack[2][2];
 
-    //console.log(CSSremote);
-
-    //console.log(toDisplay);
-
     const structure = toDisplay;
-
 
     getPanel.andDisplay(structure);
 

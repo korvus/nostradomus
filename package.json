@@ -12,47 +12,54 @@
   },
   "license": "MIT",
   "preferences": [
-  {
-    "name": "numberDOMelements",
-    "title": "Count all node elements",
-    "description": "node number in the Document Object Model",
-    "type": "bool",
-    "value": true
-  }
-  ,{
-    "name": "listEmpty",
-    "title": "List empty nodes",
-    "description": "Simple account of DOM element containing no text node or, at least DOM node.",
-    "type": "bool",
-    "value": true
-  }
-  ,{
-    "name": "listSpacer",
-    "title": "List spacer",
-    "description": "List element containing in their 'spacer' in their classname or in their src attribute (for pic).",
-    "type": "bool",
-    "value": true
-  }
-  ,{
-    "name": "sae",
-    "title": "See all elements",
-    "description": "Display a simple outline on all elements. Red for array, yellow for elements abble to receive inline elements, are blue when can't.",
-    "type": "bool",
-    "value": true
-  }
-  ,{
-    "name": "hiddenElts",
-    "title": "Hidden Elements",
-    "description": "How much hidden elements are on the page (based on display:none propertie)",
-    "type": "bool",
-    "value": true
-  }
-  ,{
-    "name": "CSSrules",
-    "title": "Count CSS",
-    "description": "Number of rules and properties containing in each styleSheet and online.",
-    "type": "bool",
-    "value": true
-  }
+    {
+      "name": "numberDOMelements",
+      "title": "Count all node elements",
+      "description": "node number in the Document Object Model",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "listEmpty",
+      "title": "List empty nodes",
+      "description": "Simple account of DOM element containing no text node or, at least DOM node.",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "listSpacer",
+      "title": "List spacer",
+      "description": "List element containing in their 'spacer' in their classname or in their src attribute (for pic).",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "sae",
+      "title": "See all elements",
+      "description": "Display a simple outline on all elements. Red for array, yellow for elements abble to receive inline elements, are blue when can't.",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "hiddenElts",
+      "title": "Hidden Elements",
+      "description": "How much hidden elements are on the page (based on display:none propertie)",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "CSSrules",
+      "title": "Count CSS",
+      "description": "Number of rules and properties containing in each styleSheet and online.",
+      "type": "bool",
+      "value": true
+    },
+    {
+      "name": "w3cValidator",
+      "title": "w3c validator",
+      "description": "Use the w3c API for validate the html",
+      "type": "bool",
+      "value": true
+    }
   ]
 }
