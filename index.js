@@ -14,4 +14,3 @@ cm.Menu({
   context: [cm.URLContext(/https?.*/)],
   items: cnxtMenu.menuEntry
 });
-

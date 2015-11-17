@@ -8,7 +8,6 @@ function getAllDocument() {
 
     self.postMessage(wholePage);
     self.port.emit("panelize", wholePage);
-    console.log(wholePage);
 
 }
 

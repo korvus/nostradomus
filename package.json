@@ -6,7 +6,9 @@
   "main": "index.js",
   "author": "Simon Ertel",
   "icon": "resource://@nostradomus/data/icon.svg",
-  "translators": [ "Simon Ertel" ],
+  "translators": [
+    "Simon Ertel"
+  ],
   "engines": {
     "firefox": ">=38.0a1"
   },
