@@ -1,6 +1,39 @@
 const { Cc, Ci } = require('chrome');
+const treatmentInfo = require("./postTreatment");
+
 var xhr = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest);
 
+function treatJsonBack(jsonFromApi){
+  jsonFromApi = JSON.parse(jsonFromApi);
+  var listOfMessages = jsonFromApi.messages;
+  treatmentInfo.forValidate(listOfMessages.length);
+}
+
+
+function getAPI(rawHTML){
+    //var fileParts = encodeURIComponent(rawHTML);
+    //console.log(rawHTML);
+
+    xhr.open("post", "https://validator.nu/?out=json", true);
+    xhr.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
+
+    xhr.onload = function(e){
+      if (xhr.readyState === 4){
+        if (xhr.status === 200){
+          treatJsonBack(xhr.responseText);
+        } else {
+          console.error(xhr.statusText);
+        }
+      }
+    };
+
+    xhr.onerror = function (e) {
+      console.error(xhr.statusText);
+    };
+
+    xhr.send(rawHTML);
+
+}
 
 /* 
  * 
@@ -24,32 +57,6 @@ var xhr = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXML
  *     apiServer.post();
 */
 
-
-function getAPI(rawHTML) {
-
-    var fileParts = encodeURIComponent(rawHTML);
-
-    xhr.open("post", "https://validator.nu/?out=json", true);
-    xhr.setRequestHeader("Content-Type", "text/html;charset=UTF-8");
-
-    xhr.onload = function (e) {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          console.log(xhr.responseText);
-        } else {
-          console.error(xhr.statusText);
-        }
-      }
-    };
-
-    xhr.onerror = function (e) {
-      //Get the result
-      console.error(xhr.statusText);
-    };
-
-    xhr.send(fileParts);
-
-}
 
 // Treatment of the infos from view
 exports.andTreat = function (rawHTML) {

@@ -1,13 +1,32 @@
 /* jshint moz: true */
 
+function returnError (){
+    self.postMessage("error");
+    self.port.emit("panelize", "error");  
+}
+
 function getAllDocument() {
 
-    var dtype = (document.doctype) ? new XMLSerializer().serializeToString(document.doctype) : "";
-    var rawHtml = document.documentElement.outerHTML;
-    var wholePage = dtype + rawHtml;
+  var err = 0;
+  var rawHTML = "";
+  var getIself = new XMLHttpRequest();
+  getIself.open("get", "", true);
+  getIself.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+  getIself.onload = function(e){
+      if(getIself.readyState === 4){
+        if(getIself.status === 200){
+          rawHTML = getIself.responseText;
+          self.postMessage(rawHTML);
+          self.port.emit("panelize", rawHTML);
+        }else{
+          returnError();
+        }
+      }else{
+        returnError();
+      }
+  };
+  getIself.send(null);
 
-    self.postMessage(wholePage);
-    self.port.emit("panelize", wholePage);
 
 }
 
