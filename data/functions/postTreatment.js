@@ -74,13 +74,10 @@ exports.forHiddenElts = function (feedBack) {
 }
 
 exports.forValidate = function (feedBack) {
-
     const structure = [
-        ["span", { "title": feedBack.toString() }, feedBack.toString()]
+        ["ol", {}, feedBack]
     ];
-
     getPanel.andDisplay(structure);
-
 }
 
 

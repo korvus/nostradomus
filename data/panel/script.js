@@ -43,6 +43,6 @@ function deployDom(ade, container) {
 deployDom(ac, wrap);
 
 //For debug
-//console.log(document.documentElement.outerHTML);
+console.log(document.documentElement.outerHTML);
 
 

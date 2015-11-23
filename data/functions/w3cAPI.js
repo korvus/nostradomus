@@ -5,8 +5,38 @@ var xhr = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXML
 
 function treatJsonBack(jsonFromApi){
   jsonFromApi = JSON.parse(jsonFromApi);
-  var listOfMessages = jsonFromApi.messages;
-  treatmentInfo.forValidate(listOfMessages.length);
+  let listOfMessages = jsonFromApi.messages;
+  let iterationOnJson = 0;
+  let listWarnings = [];
+  
+  while (listOfMessages[iterationOnJson]){
+
+      let oneOutputLine = [];
+      let lvl = listOfMessages[iterationOnJson].type.toString();
+      let mssg = listOfMessages[iterationOnJson].message.toString();
+      oneOutputLine.push(["span",{"class":lvl, "title":"type"}, lvl]);
+      oneOutputLine.push(["span",{"class":"desc", "title":"description"}, mssg]);
+      if(listOfMessages[iterationOnJson].lastLine){
+          oneOutputLine.push(["span",{},listOfMessages[iterationOnJson].lastLine]);
+      }
+      if(listOfMessages[iterationOnJson].lastColumn){
+          oneOutputLine.push(["span",{},listOfMessages[iterationOnJson].lastColumn]); 
+      }
+      if(listOfMessages[iterationOnJson].firstColumn){
+          oneOutputLine.push(["span",{},listOfMessages[iterationOnJson].firstColumn]);
+      }
+      if(listOfMessages[iterationOnJson].extract){
+          oneOutputLine.push(["code",{},listOfMessages[iterationOnJson].extract]);
+      }
+
+      //Send the whole stuffs
+      listWarnings.push(["li",{"class":lvl},oneOutputLine]);
+      iterationOnJson++;
+  }
+
+
+  treatmentInfo.forValidate(listWarnings);
+
 }
 
 
