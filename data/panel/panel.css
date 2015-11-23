@@ -5,6 +5,7 @@ body, html{
 }
 
 ul{margin:0;padding:0;list-style:none;}
+ol{margin:0;padding:0 0 0 30px;}
 
 html{
   height:100%;
@@ -49,9 +50,7 @@ ul h2{font-size:12px;font-weight:normal;margin:0;}
 
 #graphicHead{display:table;margin:0 auto 20px;}
 
-#array{
-  border-top:1px solid #aaa;
-}
+#array{border-top:1px solid #aaa;}
 
 #array li{
   color:#666;
@@ -137,3 +136,19 @@ hr{
     border: none;
     border-top: 1px solid #aaa;
 }
+
+/* 3Wc VALIDATION */
+ol#array{border-top:none;counter-reset:rule;display:flex;flex-direction: column;}
+ol#array li{color:#333;counter-increment:rule;border-top:none;border-top:1px solid #aaa;list-style:none;position:relative;clear:both;
+  margin:10px 0;}
+ol#array li:first-child{border-top:none;}
+ol#array li:before{content:counters(rule, ".");float:left;margin-right:10px;margin-left:-10px;}
+ol span{display:inline-block;line-height:21px;}
+ol span.info,
+ol span.error,
+ol span.warning{line-height:16px;color:#fff;padding:2px 5px;border:1px solid #fff;border-radius:5px;margin-right:10px;}
+ol span.info{background:#30E700;}
+ol span.error{background:#E71517;}
+ol span.warning{background:#E78034;}
+ol code{border:1px solid #999;clear:both;background:#eee;padding:5px;margin:10px 0 0 0;border-radius:5px;display:block;overflow:auto;}
+

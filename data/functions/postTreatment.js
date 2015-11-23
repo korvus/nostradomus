@@ -75,7 +75,7 @@ exports.forHiddenElts = function (feedBack) {
 
 exports.forValidate = function (feedBack) {
     const structure = [
-        ["ol", {}, feedBack]
+        ["ol", {"id":"array"}, feedBack]
     ];
     getPanel.andDisplay(structure);
 }

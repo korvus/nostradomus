@@ -4,6 +4,7 @@ const treatmentInfo = require("./postTreatment");
 var xhr = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest);
 
 function treatJsonBack(jsonFromApi){
+  console.log(jsonFromApi);
   jsonFromApi = JSON.parse(jsonFromApi);
   let listOfMessages = jsonFromApi.messages;
   let iterationOnJson = 0;
@@ -14,6 +15,11 @@ function treatJsonBack(jsonFromApi){
       let oneOutputLine = [];
       let lvl = listOfMessages[iterationOnJson].type.toString();
       let mssg = listOfMessages[iterationOnJson].message.toString();
+      if(lvl == "info"){
+        if(listOfMessages[iterationOnJson].subType){
+          lvl = listOfMessages[iterationOnJson].subType.toString();
+        }
+      }
       oneOutputLine.push(["span",{"class":lvl, "title":"type"}, lvl]);
       oneOutputLine.push(["span",{"class":"desc", "title":"description"}, mssg]);
       if(listOfMessages[iterationOnJson].lastLine){
